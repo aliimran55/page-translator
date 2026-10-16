@@ -1,12 +1,35 @@
 
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { useState, useEffect } from "react";
 
 function TranslationPopUp() {
+    const [text, setText] = useState("");
+    const [translation, setTranslation] = useState("")
+    async function translateText(textToTranslate) {
+        const response = await fetch(
+            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(textToTranslate)}&langpair=en|de`
+        );
+        const data = await response.json();
+        setTranslation(data.responseData.translatedText);
+    }
+    useEffect(() => {
+        function handleMouseUp(){
+            const selectedText = window.getSelection().toString().trim();
+            setText(selectedText);
+            if (selectedText !== "") {
+                translateText(selectedText);
+            }
+        }
+        document.addEventListener("mouseup", handleMouseUp);
+        return () => {
+            document.removeEventListener("mouseup", handleMouseUp);
+        };
+    }, []);
     return (
-        <div id="page-translator-popup">
-            Hello React
-        </div>
+        <>
+        {text !== "" && <div id="page-translator-popup"> {translation} </div>}
+        </>
     );
 }
 
@@ -17,22 +40,3 @@ document.body.appendChild(root);
 const reactRoot = createRoot(root);
 reactRoot.render(<TranslationPopUp />);
 
-document.addEventListener("mouseup", () => {
-    const selectedText = window.getSelection().toString().trim();
-
-    let popUp = document.getElementById("page-translator-popup");
-
-    if (!selectedText) {
-        return;
-    }
-
-    if (popUp === null) {
-        popUp = document.createElement("div");
-        popUp.id = "page-translator-popup";
-        popUp.textContent = selectedText;
-        document.body.appendChild(popUp);
-    }
-
-    popUp.textContent = selectedText;
-    console.log(selectedText);
-});
