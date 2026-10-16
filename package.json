@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "parcel build src/content.js src/content.css --dist-dir dist --no-content-hash"
+    "build": "parcel build src/content.js src/content.css --dist-dir dist --no-content-hash",
+    "build:firefox": "parcel build src/content.js src/content.css --dist-dir dist-firefox --no-content-hash"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "franc": "^6.2.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
