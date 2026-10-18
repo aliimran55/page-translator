@@ -1,0 +1,24 @@
+
+{
+  "manifest_version": 3,
+  "name": "Page Translator",
+  "version": "1.0.0",
+  "description": "Translates selected English text into German.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "page-translator-2026@example.com",
+      "data_collection_permissions": {
+        "required": ["websiteContent"]
+      }
+    }
+  },
+  "permissions": [],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
